@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Navbar } from './components/navbar/Navbar';
+import { Home } from './pages/Home';
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
      {/* navbar */}
     <Navbar/>
      <Routes>
-        <Route path='/home' element={<h3>Home</h3>}/>
+        <Route path='/home' element={<Home/>}/>
         <Route path='/social' element={<h3>Social</h3>}/>
         <Route path='/library' element={<h3>Library</h3>}/>
         <Route path='/login' element={<h3>Login</h3>}/>

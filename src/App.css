@@ -1,7 +1,6 @@
 *{
   margin: 0;
   padding: 0;
-  color: #ddd;
 }
 
 .navbar-container{
@@ -23,6 +22,7 @@
         font-weight: 600;
         padding: 0.5rem;
         border-radius: 0.125rem;
+        color: #fff;
         &:hover{
           color:aqua;
         }
@@ -65,10 +65,38 @@
 }
 
 .auth-modal{
+  background-color: #ddd;
+  padding: 1rem;
   width: 10rem;
   display: flex;
-  flex-direction: column ;
+  flex-direction: column;
+  gap: 0.5rem;
   position: absolute;
+  right: 2rem;
+}
+
+.music-list-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.home-container{
+  background-color: #575757;
+}
+
+.music-card-container{
+  max-width: 10rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.one-line{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* .navbar-container .link-container{
