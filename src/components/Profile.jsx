@@ -1,15 +1,25 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
 
 export const Profile = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const userName = JSON.parse(sessionStorage.getItem("userName"));
 
   const navigateHandler = (path) => {
     navigate(path);
     setIsModalVisible(false);
+  };
+
+  const logout = () => {
+    sessionStorage.removeItem("userToken");
+    sessionStorage.removeItem("userName");
+    setIsLoggedIn(false);
+    navigateHandler("/login");
   };
 
   return (
@@ -18,12 +28,29 @@ export const Profile = () => {
         className="profile-icon-container"
         onClick={() => setIsModalVisible(!isModalVisible)}
       >
-        <FontAwesomeIcon icon={faUser} />
+        <section className="profile-icon">
+          <FontAwesomeIcon icon={faUser} />
+        </section>
+
+        {isLoggedIn && <span>{userName}</span>}
       </section>
       {isModalVisible && (
         <section className="auth-modal">
-          <button onClick={() => navigateHandler("/login")}>Login</button>
-          <button onClick={() => navigateHandler("/signup")}>Sign Up</button>
+          {isLoggedIn ? (
+            <>
+              <button onClick={() => navigateHandler("/myProfile")}>
+                My Profile
+              </button>
+              <button onClick={logout}>Logout</button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => navigateHandler("/login")}>Login</button>
+              <button onClick={() => navigateHandler("/signup")}>
+                Sign Up
+              </button>
+            </>
+          )}
         </section>
       )}
     </section>

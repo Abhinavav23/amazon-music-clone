@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { MusicCard } from "../components/music/MusicCard";
+import { getHeaderWithProjectId } from "../utils/service";
 
 // 9sa80czkq1na
 export const Home = () => {
@@ -8,11 +9,7 @@ export const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getMusicList = async () => {
-    const config = {
-      headers: {
-        projectId: "l2uaz7omaxbe",
-      },
-    };
+    const config = getHeaderWithProjectId();
     try {
       setIsLoading(true);
       const response = await axios.get(
@@ -22,7 +19,7 @@ export const Home = () => {
       setMusicList(response.data.data);
     } catch (err) {
       console.log("err: ", err);
-    //   
+      //
     } finally {
       setIsLoading(false);
     }
@@ -30,7 +27,6 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    console.log("calling useeffect");
     getMusicList();
   }, []);
 
@@ -42,7 +38,7 @@ export const Home = () => {
         <section className="music-list-container">
           {musicList.length > 0 &&
             musicList.map((music) => {
-              return <MusicCard details={music}/>;
+              return <MusicCard details={music} key={music._id}/>;
             })}
         </section>
       )}
