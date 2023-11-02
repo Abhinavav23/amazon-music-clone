@@ -1,14 +1,15 @@
 import axios from "axios";
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { getHeaderWithProjectId } from "../utils/service";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../provider/AuthProvider";
 
 export const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
-  const {setIsLoggedIn} =  useContext(AuthContext);
+  const {setIsLoggedIn} =  useAuth();
+  const {state} = useLocation();
 
   const loginUser = async (user) => {
     const config = getHeaderWithProjectId();
@@ -24,7 +25,11 @@ export const Login = () => {
         sessionStorage.setItem("userToken", token);
         sessionStorage.setItem("userName", JSON.stringify(res.data.data.name));
         setIsLoggedIn(true);
-        navigate("/home");
+        if(state){
+          navigate(state.prevPath);
+        }else{
+          navigate("/home")
+        }
       }
     } catch (err) {
       console.log("Error:", err);

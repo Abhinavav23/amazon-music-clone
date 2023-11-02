@@ -1,13 +1,13 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+import { useAuth } from "../provider/AuthProvider";
 
 export const Profile = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const userName = JSON.parse(sessionStorage.getItem("userName"));
 
   const navigateHandler = (path) => {

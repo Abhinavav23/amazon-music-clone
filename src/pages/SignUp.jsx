@@ -1,22 +1,22 @@
 import axios from "axios";
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { getHeaderWithProjectId } from "../utils/service";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../App";
+import { useAuth } from "../provider/AuthProvider";
 
 export const SignUp = () => {
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn } = useAuth();
 
   const createUser = async (user) => {
     const config = getHeaderWithProjectId();
     try {
       const res = await axios.post(
         "https://academics.newtonschool.co/api/v1/user/signup",
-        { ...user, appType: "music" },
+        { ...user, appType: "music" }, // copy using spread
         config
       );
       console.log("res", res);
@@ -71,3 +71,12 @@ export const SignUp = () => {
     </form>
   );
 };
+
+// fetch("dfdfdf", {
+//     method: "POST",
+// body: Json.stringify(obj),
+// header: {
+//     ProjectId: "",
+// appType: "music"
+// }
+// })
