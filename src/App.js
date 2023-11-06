@@ -7,6 +7,7 @@ import { Login } from "./pages/Login";
 import { AuthProvider } from "./provider/AuthProvider";
 import { MusicPlayer } from "./components/music/MusicPlayer";
 import { AuthNavigator } from "./navigator/AuthNavigator";
+import { Social } from "./pages/Social";
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
       {/* navbar */}
       <AuthProvider>
         <Navbar />
+        <main className="app-container">
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/social" element={<h3>Social</h3>} />
+          <Route path="/social" element={<Social/>} />
           <Route path="/library" element={<h3>Library</h3>} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
@@ -28,9 +30,18 @@ function App() {
               </AuthNavigator>
             }
           />
+          <Route
+            path="/post/:postId"
+            element={
+              <AuthNavigator>
+                {/* <MusicPlayer /> */}
+              </AuthNavigator>
+            }
+          />
           <Route path="/myprofile" element={<h2>My Profile</h2>} />
           <Route path="*" element={<h3>Page not Found !!</h3>} />
         </Routes>
+        </main>
       </AuthProvider>
     </div>
   );

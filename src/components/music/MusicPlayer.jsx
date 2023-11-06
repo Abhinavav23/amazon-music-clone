@@ -19,6 +19,7 @@ export const MusicPlayer = () => {
   const audioRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
+  const [currTime, setCurrTime] = useState(0);
 
   const getMusicDetails = async () => {
     const config = getHeaderWithProjectId();
@@ -58,14 +59,30 @@ export const MusicPlayer = () => {
       audioRef.current.play();
     }
     setIsPlaying(!isPlaying);
-    setDuration(audioRef.current.duration)
+    // setDuration(audioRef.current.duration);
   };
 
   useEffect(() => {
-    if(audioRef.current){
-        console.log("audioRef.current.duration", audioRef.current.duration);
+    if (audioRef.current) {
+      console.log("audioRef.current.duration", audioRef.current.duration);
     }
-  }, [audioRef])
+  }, [audioRef]);
+
+  const formatTime = (time) => {
+   const totalTime =  Math.ceil(time);
+   console.log("totalTime", totalTime);
+   const min = Math.floor(totalTime/60);
+   const sec = totalTime%60;
+   const formatTimeNo = (no) => {
+    return no<10 ? `0${no}`: no
+   }
+   return `${formatTimeNo(min)} : ${formatTimeNo(sec)} min`
+  }
+
+  const updateTime = (e) => {
+    console.log("currTime", e.target.currentTime);
+    setCurrTime(e.target.currentTime)
+  }
 
   return isLoading ? (
     <div>Loading ...</div>
@@ -76,8 +93,14 @@ export const MusicPlayer = () => {
       <p>{music.artist && music.artist.map((el) => el.name).join(" & ")}</p>
       <p>published On: {getDate(music.createdAt)}</p>
 
-      <audio src={music.audio_url} ref={audioRef} />
-      <section className="music-Player" >
+      <audio
+        src={music.audio_url}
+        ref={audioRef}
+        onDurationChange={() => setDuration(audioRef.current.duration)}
+        onTimeUpdate={updateTime}
+      />
+      <section className="music-Player">
+        <input type="range" name="" id="progress-bar" value={currTime} min={0} max={duration}/>
         <button onClick={playOrPause}>
           {isPlaying ? (
             <aside style={playPauseButtonStyle}>
@@ -94,7 +117,7 @@ export const MusicPlayer = () => {
         {/* <span>start - </span> 
         <span>End - </span> */}
 
-        <div>Duration: {duration}</div>
+        <div>Duration: {formatTime(duration)}</div>
       </section>
     </section>
   );
