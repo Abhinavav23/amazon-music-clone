@@ -40,6 +40,7 @@ export const MusicPlayer = () => {
 
   useEffect(() => {
     getMusicDetails();
+    // eslint-disable-next-line
   }, []);
 
   const getDate = (fullDate) => {
